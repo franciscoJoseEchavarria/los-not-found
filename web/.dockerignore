@@ -1,0 +1,12 @@
+node_modules
+build
+.cache
+.vscode
+.git
+.gitignore
+.env
+.DS_Store
+Dockerfile
+.dockerignore
+README.md
+*.log 

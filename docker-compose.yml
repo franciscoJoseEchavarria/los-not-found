@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  api:
+    build: ./api
+    container_name: api
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}"
+      JWT__KEY: ${JWT_KEY}
+      JWT__ISSUER: ${JWT_ISSUER}
+      JWT__AUDIENCE: ${JWT_AUDIENCE}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - my_network
+  web:
+    build:
+      context: ./web
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: web
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - my_network
+
+volumes:
+  pg_data:
+
+networks:
+  my_network:
+    driver: bridge

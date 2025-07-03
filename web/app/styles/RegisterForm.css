@@ -1,0 +1,108 @@
+#container2 {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;
+  gap: 20px;
+  margin-top: 0;
+  background: #0c66e1;
+}
+#Registercon {
+  width: 60%;
+  height: 70%;
+  display: flex;
+  gap: 20px;
+  margin-top: 0;
+  background: #000835;
+}
+
+#formRegister {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: flex-end;
+  flex-direction: column; /* Organiza los elementos en columna */
+  gap: 35px; /* Espaciado entre los elementos */
+  margin-right: 5%;
+}
+
+#email,
+#nombre,
+#password {
+  width: 48%;
+  height: 8%;
+  padding: 12px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 0; /* Asegura que los campos llenen el espacio */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#button {
+  width: 48%;
+  height: 10%;
+  padding: 12px;
+  font-size: 30px;
+  border: 1px solid;
+  border-radius: 0;
+  box-sizing: border-box;
+  background-color: #0c66e1;
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#button:hover {
+  background-color: #0056b3; /* Cambio a un azul más oscuro */
+}
+
+#button:active {
+  background-color: #003f7f; /* Un tono más oscuro al hacer clic */
+  transform: scale(1.05); /* Reduce el tamaño un poco para el efecto de clic */
+}
+
+#imgrec {
+  width: 28%;
+  height: 56%;
+  position: absolute;
+  border-radius: 1%;
+  opacity: 1; /* Opacidad completa al pasar el ratón por encima */
+}
+
+#imgrec:hover {
+  opacity: 0.3; /* Opacidad inicial: 30% */
+}
+
+#terms {
+  width: 48%;
+  height: 8%;
+  color: white;
+  text-align: center;
+}
+
+.mensaje-exito {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#imgrec {
+  width: 28%;
+  height: 56%;
+  position: absolute;
+  border-radius: 1%;
+  opacity: 1; /* Opacidad completa al pasar el ratón por encima */
+  left: 18rem;
+}
