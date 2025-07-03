@@ -1,0 +1,45 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy: 
+    if: > 
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend image
+        run: |
+          docker build -t aztro-api ./api
+          docker tag aztro-api:latest ${{ secrets.DOCKER_USERNAME }}/aztro-api:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/aztro-api:latest
+       
+      - name: Build and push frontend image
+        run: |
+          docker build -t aztro-web ./web
+          docker tag aztro-web:latest ${{ secrets.DOCKER_USERNAME }}/aztro-web:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/aztro-web:latest
+
+      - name: Deploy to server
+        run:
+          echo "Deploying to server..."
+          
