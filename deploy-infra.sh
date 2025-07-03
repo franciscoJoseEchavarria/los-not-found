@@ -5,7 +5,7 @@ set -e
 # --- Variables de Configuración ---
 APP_RG="aztro-rg"
 DB_RG="aztro-db-rg"
-LOCATION="westeurope"
+LOCATION="centralus"
 
 PLAN_NAME="aztro-appservice-plan"
 API_APP_NAME="aztro-api-app"
@@ -39,16 +39,15 @@ az webapp create \
   --resource-group $APP_RG \
   --plan $PLAN_NAME \
   --name $API_APP_NAME \
-  --multicontainer-config-type DOCKER \
-  --multicontainer-config-file /dev/null
+  --runtime "DOTNETCORE:9.0"
 
-# --- Configurar imagen Docker para la API ---
+# --- Configurar contenedor para la API ---
 echo "⚙️ Configurando contenedor para la API..."
 az webapp config container set \
   --name $API_APP_NAME \
   --resource-group $APP_RG \
-  --container-image-name japersa/aztro-api:latest \
-  --container-registry-url https://index.docker.io
+  --docker-custom-image-name japersa/api:latest \
+  --docker-registry-server-url https://index.docker.io
 
 # --- Crear Web App para el Frontend ---
 echo "🚀 Creando Web App para el Frontend..."
@@ -56,16 +55,15 @@ az webapp create \
   --resource-group $APP_RG \
   --plan $PLAN_NAME \
   --name $WEB_APP_NAME \
-  --multicontainer-config-type DOCKER \
-  --multicontainer-config-file /dev/null
+  --runtime "NODE:20-lts"
 
-# --- Configurar imagen Docker para el Frontend ---
+# --- Configurar contenedor para el Frontend ---
 echo "⚙️ Configurando contenedor para el Frontend..."
 az webapp config container set \
   --name $WEB_APP_NAME \
   --resource-group $APP_RG \
-  --container-image-name japersa/aztro-web:latest \
-  --container-registry-url https://index.docker.io
+  --docker-custom-image-name japersa/web:latest \
+  --docker-registry-server-url https://index.docker.io
 
 # --- Crear servidor PostgreSQL Flexible ---
 echo "🐘 Creando servidor PostgreSQL Flexible..."
