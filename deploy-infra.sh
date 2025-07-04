@@ -68,8 +68,7 @@ echo "🚀 Creating Web App for API..."
 az webapp create \
   --resource-group $APP_RG \
   --plan $PLAN_NAME \
-  --name $API_APP_NAME \
-  --runtime "DOTNETCORE:9.0"
+  --name $API_APP_NAME 
 
 echo "⚙️ Setting container for API..."
 az webapp config container set \
@@ -103,8 +102,7 @@ echo "🚀 Creating Web App for frontend..."
 az webapp create \
   --resource-group $APP_RG \
   --plan $PLAN_NAME \
-  --name $WEB_APP_NAME \
-  --runtime "NODE:20-lts"
+  --name $WEB_APP_NAME 
 
 echo "⚙️ Setting container for frontend..."
 az webapp config container set \
