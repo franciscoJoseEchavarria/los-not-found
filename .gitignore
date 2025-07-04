@@ -56,3 +56,15 @@ logs/
 # Test coverage
 coverage/
 .nyc_output/
+
+# --- Terraform ---
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
+
+.terraform/
+.terraform.lock.hcl
+
+crash.log
