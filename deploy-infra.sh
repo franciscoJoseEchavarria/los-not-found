@@ -6,11 +6,7 @@ set -e
 source ./shared-vars.sh
 
 # --- Define variables ---
-APP_RG="aztro-rg-$SUFFIX"
-
 PLAN_NAME="aztro-appservice-plan"
-API_APP_NAME="aztro-api-app-$SUFFIX"
-WEB_APP_NAME="aztro-web-app-$SUFFIX"
 
 POSTGRES_SERVER="aztro-postgres-server-$RANDOM"
 POSTGRES_DB="aztrodb"

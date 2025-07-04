@@ -26,6 +26,7 @@ echo "🌐 Building and pushing WEB image..."
 docker buildx build \
   --platform linux/amd64 \
   --push \
+  --build-arg VITE_API_URL=https://$API_APP_NAME.azurewebsites.net \
   -t $DOCKERHUB_USER/$WEB_IMAGE:latest \
   ./web || { echo "❌ Failed to build WEB image"; exit 1; }
 
