@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Variables
-API_IMAGE="aztro-api"
-WEB_IMAGE="aztro-web"
-DOCKERHUB_USER="japersa" # Change this to your Docker Hub username
+set -e
+
+# --- Load shared environment variables ---
+source ./shared-vars.sh
 
 # Set up Buildx for multi-platform support
 echo "🔧 Setting up Docker Buildx..."

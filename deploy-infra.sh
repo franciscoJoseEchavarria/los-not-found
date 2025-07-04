@@ -7,7 +7,6 @@ source ./shared-vars.sh
 
 # --- Define variables ---
 APP_RG="aztro-rg-$SUFFIX"
-DB_RG="aztro-db-rg-$SUFFIX"
 
 PLAN_NAME="aztro-appservice-plan"
 API_APP_NAME="aztro-api-app-$SUFFIX"
@@ -24,13 +23,12 @@ JWT_AUDIENCE="bmV3QXVkaWVuY2U="
 
 # --- Create resource groups ---
 echo "📦 Creating resource groups..."
-az group create --name $DB_RG --location $LOCATION || true
 az group create --name $APP_RG --location $LOCATION || true
 
 # --- Create PostgreSQL Flexible Server ---
 echo "🐘 Creating PostgreSQL Flexible Server..."
 az postgres flexible-server create \
-  --resource-group $DB_RG \
+  --resource-group $APP_RG \
   --name $POSTGRES_SERVER \
   --location $LOCATION \
   --admin-user $POSTGRES_USER \
@@ -44,13 +42,13 @@ az postgres flexible-server create \
 # --- Create PostgreSQL database ---
 echo "📁 Creating PostgreSQL database..."
 az postgres flexible-server db create \
-  --resource-group $DB_RG \
+  --resource-group $APP_RG \
   --server-name $POSTGRES_SERVER \
   --database-name $POSTGRES_DB
 
 # --- Get PostgreSQL hostname ---
 POSTGRES_HOST=$(az postgres flexible-server show \
-  --resource-group $DB_RG \
+  --resource-group $APP_RG \
   --name $POSTGRES_SERVER \
   --query "fullyQualifiedDomainName" -o tsv)
 
