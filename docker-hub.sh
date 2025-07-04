@@ -5,24 +5,28 @@ API_IMAGE="aztro-api"
 WEB_IMAGE="aztro-web"
 DOCKERHUB_USER="japersa" # Change this to your Docker Hub username
 
-# Build API image
-echo "Building image for API..."
-docker build -t $DOCKERHUB_USER/$API_IMAGE:latest ./api
+# Set up Buildx for multi-platform support
+echo "🔧 Setting up Docker Buildx..."
+docker buildx create --use --name aztro-builder || docker buildx use aztro-builder
 
-# Build WEB image
-echo "Building image for WEB..."
-docker build -t $DOCKERHUB_USER/$WEB_IMAGE:latest ./web
+# Log in to Docker Hub
+echo "🔐 Logging in to Docker Hub..."
+docker login || { echo "❌ Docker login failed"; exit 1; }
 
-# Login to Docker Hub
-echo "Logging in to Docker Hub..."
-docker login
+# Build and push API image
+echo "🐳 Building and pushing API image..."
+docker buildx build \
+  --platform linux/amd64 \
+  --push \
+  -t $DOCKERHUB_USER/$API_IMAGE:latest \
+  ./api || { echo "❌ Failed to build API image"; exit 1; }
 
-# Push API image
-echo "Pushing API image to Docker Hub..."
-docker push $DOCKERHUB_USER/$API_IMAGE:latest
+# Build and push WEB image
+echo "🌐 Building and pushing WEB image..."
+docker buildx build \
+  --platform linux/amd64 \
+  --push \
+  -t $DOCKERHUB_USER/$WEB_IMAGE:latest \
+  ./web || { echo "❌ Failed to build WEB image"; exit 1; }
 
-# Push WEB image
-echo "Pushing WEB image to Docker Hub..."
-docker push $DOCKERHUB_USER/$WEB_IMAGE:latest
-
-echo "Deployment completed!"
+echo "✅ Deployment completed successfully with multi-platform images!"
