@@ -5,18 +5,19 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Configurar políticas de autorización
+//Configurarar autorizacionces
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy =>
         policy.RequireRole("ADMIN"));
 });
-
-// Configurar autenticación JWT
+// Configurar JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -32,8 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
-
-// Configurar conexión a PostgreSQL
+// Configurar PostgreSQL
 builder.Services.AddDbContext<AmadeusContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -52,6 +52,7 @@ builder.Services.AddScoped<IPreferenciaService, PreferenciaService>();
 builder.Services.AddScoped<IDestinoRepository, DestinoRepository>();
 builder.Services.AddScoped<IDestinoService, DestinoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 // Configurar CORS
 builder.Services.AddCors(options =>
@@ -101,31 +102,45 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 var app = builder.Build();
 
-// Ejecutar migraciones automáticamente al iniciar la app
+// Aplicar migraciones automáticamente al iniciar
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AmadeusContext>();
-    db.Database.Migrate(); // Ejecuta las migraciones pendientes
+    var context = scope.ServiceProvider.GetRequiredService<AmadeusContext>();
+    context.Database.Migrate();
+
+    // Ejecutar seeders automáticamente después de las migraciones
+    var seeders = new List<Api.Seeders.ISeeder>
+    {
+        new Api.Seeders.ContinenteSeeder(),
+        new Api.Seeders.DestinoSeeder(),
+        new Api.Seeders.PreferenciaSeeder(),
+        new Api.Seeders.PreferenciaDestinoSeeder()
+    };
+    foreach (var seeder in seeders.OrderBy(s => s.Order))
+    {
+        seeder.SeedAsync(context).GetAwaiter().GetResult();
+    }
 }
 
-// Middleware
-app.UseAuthentication(); 
-app.UseAuthorization();  
+app.UseAuthentication(); // Habilitar autenticación con JWT
+app.UseAuthorization();  // Habilitar autorización
 app.UseCors("AllowAll");
 
-// Swagger siempre habilitado
+// Habilitar Swagger en todos los entornos
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-    options.RoutePrefix = string.Empty;
+    options.RoutePrefix = string.Empty; // Dejar vacío para acceder en la raíz (http://localhost:5220)
 });
 
+// Manejo global de excepciones
 app.UseExceptionHandler("/error");
+
 app.UseHttpsRedirection();
-
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
