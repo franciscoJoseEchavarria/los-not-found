@@ -37,11 +37,12 @@ jobs:
 
       - name: Build and push frontend image
         run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            --push \
-            -t ${{ secrets.DOCKER_USERNAME }}/aztro-web:latest \
-            ./web
+            docker buildx build \
+                --platform linux/amd64 \
+                --push \
+                --build-arg VITE_API_URL=https://${{ secrets.API_APP_NAME }}.azurewebsites.net \
+                -t ${{ secrets.DOCKER_USERNAME }}/aztro-web:latest \
+                ./web
 
       - name: Deploy to server
         run: |
