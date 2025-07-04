@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# --- Variables de configuración ---
-APP_RG="aztro-rg"
-DB_RG="aztro-db-rg"
+# --- Cargar variables compartidas ---
+source ./shared-vars.sh
+
+APP_RG="aztro-rg-$SUFFIX"
+DB_RG="aztro-db-rg-$SUFFIX"
 
 echo "🧨 Eliminando solo los grupos de recursos: $APP_RG y $DB_RG..."
 

@@ -2,14 +2,15 @@
 
 set -e
 
-# --- Variables de Configuración ---
-APP_RG="aztro-rg"
-DB_RG="aztro-db-rg"
-LOCATION="centralus"
+# --- Cargar variables compartidas ---
+source ./shared-vars.sh
+
+APP_RG="aztro-rg-$SUFFIX"
+DB_RG="aztro-db-rg-$SUFFIX"
 
 PLAN_NAME="aztro-appservice-plan"
-API_APP_NAME="aztro-api-app"
-WEB_APP_NAME="aztro-web-app"
+API_APP_NAME="aztro-api-app-$SUFFIX"
+WEB_APP_NAME="aztro-web-app-$SUFFIX"
 
 POSTGRES_SERVER="aztro-postgres-server-$RANDOM"
 POSTGRES_DB="aztrodb"
@@ -46,8 +47,8 @@ echo "⚙️ Configurando contenedor para la API..."
 az webapp config container set \
   --name $API_APP_NAME \
   --resource-group $APP_RG \
-  --docker-custom-image-name japersa/api:latest \
-  --docker-registry-server-url https://index.docker.io
+  --container-image-name japersa/aztro-api:latest \
+  --container-registry-url https://index.docker.io
 
 # --- Crear Web App para el Frontend ---
 echo "🚀 Creando Web App para el Frontend..."
@@ -62,8 +63,8 @@ echo "⚙️ Configurando contenedor para el Frontend..."
 az webapp config container set \
   --name $WEB_APP_NAME \
   --resource-group $APP_RG \
-  --docker-custom-image-name japersa/web:latest \
-  --docker-registry-server-url https://index.docker.io
+  --container-image-name japersa/aztro-web:latest \
+  --container-registry-url https://index.docker.io
 
 # --- Crear servidor PostgreSQL Flexible ---
 echo "🐘 Creando servidor PostgreSQL Flexible..."
