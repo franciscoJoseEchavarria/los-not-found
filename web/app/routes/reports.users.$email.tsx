@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, Navigate } from "@remix-run/react";
+import { API_URL } from "~/constants/api";
 
 /*logica para proteger vistas*/
 import { useAuth } from "~/hooks/useAuth";
@@ -11,9 +12,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!email) throw new Response("Email is required", { status: 400 });
 
   try {
-    // const response = await fetch(`http://localhost:5220/api/preferencias/usuario/${email}`);
-    console.log({email});
-    const response = await fetch(`http://localhost:5220/api/Destinos/by-email/${email}`);
+    const response = await fetch(`${API_URL}/api/Destinos/by-email/${email}`);
     console.log({response});
     if (!response.ok) throw new Error("Error al cargar preferencias");
 

@@ -1,6 +1,5 @@
+import { API_URL } from "../constants/api";
 import { Destination } from "~/interfaces/destination";
-
-const API_URL = "http://localhost:5220/api/Destinos";
 
 export async function fetchDestinationData(token: string): Promise<Destination[]> {
   try {

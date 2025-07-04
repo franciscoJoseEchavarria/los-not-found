@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getTokenFromCookiesClient } from "~/utils/cookieUtils";
 import emailjs from '@emailjs/browser';
 import { EMAILJS_CONFIG } from "~/utils/emailConfig";
+import { API_URL } from "~/constants/api";
 
 interface Destination {
   nombre: string;
@@ -52,7 +53,7 @@ export function useContactModal(isOpen: boolean, user: User | null) {
       }
       
       // Usamos el endpoint específico con el email del usuario
-      const apiUrl = `http://localhost:5220/api/Destinos/by-email/${email}`;
+      const apiUrl = `${API_URL}/api/Destinos/by-email/${email}`;
       console.log("Llamando a API:", apiUrl);
       
       const response = await fetch(apiUrl, {

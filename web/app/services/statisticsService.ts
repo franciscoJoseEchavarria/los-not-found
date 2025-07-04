@@ -1,6 +1,5 @@
+import { API_URL } from "../constants/api";
 import { UserWithPreferencesAndDestinations } from "~/interfaces/userWithPreferencesAndDestinations";
-
-const API_URL = "http://localhost:5220/api/Usuarios/with-preferences-destinations";
 
 export async function fetchUsersWithPreferencesAndDestinations(token: string): Promise<UserWithPreferencesAndDestinations[]> {
   try {

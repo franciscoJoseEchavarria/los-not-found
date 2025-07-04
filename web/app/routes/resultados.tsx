@@ -2,6 +2,7 @@ import { useNavigate, Navigate } from "@remix-run/react";
 import { useAuth } from "~/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { destinoService } from "~/services/destinoService";
+import { API_URL } from "~/constants/api";
 
 export const links = () => {
   return [
@@ -71,7 +72,7 @@ export default function Resultados() {
         rango_edad: sessionStorage.getItem("respuesta_5") || "",
       };
 
-      const response = await fetch("http://localhost:5220/api/PreferenciaUsuarios/asignar", {
+      const response = await fetch(`${API_URL}/api/PreferenciaUsuarios/asignar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
