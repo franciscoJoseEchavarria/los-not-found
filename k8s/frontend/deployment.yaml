@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
         - name: web
-          image: japersa/aztro-web:latest
+          image: pachito
+
+/aztro-web:latest
           ports:
             - containerPort: 3000
           env:

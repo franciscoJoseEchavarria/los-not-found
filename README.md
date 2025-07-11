@@ -137,8 +137,12 @@ Asegúrate de tener instaladas las siguientes herramientas:
 
 - Scripts en `infra/dev-scripts/` usan los prefijos `*-infra.sh` (infraestructura) y `*-hub.sh` (contenedores).
 - Las imágenes Docker deben alojarse como:
-  - `japersa/aztro-web`
-  - `japersa/aztro-api`
+  - `pachito
+
+/aztro-web`
+  - `pachito
+
+/aztro-api`
 - Las variables de entorno se inyectan por:
   - App Settings en Azure
   - Argumentos al contenedor
@@ -146,4 +150,10 @@ Asegúrate de tener instaladas las siguientes herramientas:
 
 ## ✨ Autor
 
-**Japersa** · [GitHub](https://github.com/japersa) · [Docker Hub](https://hub.docker.com/u/japersa)
+**pachito
+
+** · [GitHub](https://github.com/pachito
+
+) · [Docker Hub](https://hub.docker.com/u/pachito
+
+)

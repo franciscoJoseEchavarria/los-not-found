@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
         - name: api
-          image: japersa/aztro-api:latest
+          image: pachito
+
+/aztro-api:latest
           ports:
             - containerPort: 8000
           env:

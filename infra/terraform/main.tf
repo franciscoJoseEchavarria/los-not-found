@@ -72,7 +72,9 @@ resource "azurerm_linux_web_app" "api_app" {
   site_config {
     always_on = true
     application_stack {
-      docker_image     = "japersa/aztro-api"
+      docker_image     = "pachito
+
+/aztro-api"
       docker_image_tag = "latest"
     }
   }
@@ -95,7 +97,9 @@ resource "azurerm_linux_web_app" "web_app" {
   site_config {
     always_on = true
     application_stack {
-      docker_image     = "japersa/aztro-web"
+      docker_image     = "pachito
+
+/aztro-web"
       docker_image_tag = "latest"
     }
   }
