@@ -1,7 +1,7 @@
 # shared-vars.sh
 
 # Sufijo compartido para nombres de recursos
-SUFFIX="alt-a"
+SUFFIX="los-not-found"
 
 # Ubicación común para los recursos
 LOCATION="centralus"
@@ -9,7 +9,9 @@ LOCATION="centralus"
 # Docker images and user
 API_IMAGE="aztro-api"
 WEB_IMAGE="aztro-web"
-DOCKERHUB_USER="japersa" # Change this to your Docker Hub username
+DOCKERHUB_USER="pachito"
+
+# Change this to your Docker Hub username
 
 APP_RG="aztro-rg-$SUFFIX"
 API_APP_NAME="aztro-api-app-$SUFFIX"
