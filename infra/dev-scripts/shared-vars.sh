@@ -1,7 +1,7 @@
 # shared-vars.sh
 
 # Sufijo compartido para nombres de recursos
-SUFFIX="los-not-found"
+SUFFIX="los-not-found-aztrouno"
 
 # Ubicación común para los recursos
 LOCATION="centralus"
